@@ -14,5 +14,5 @@ COPY . .
 #Expose port
 EXPOSE 8000
 
-#Run the application
-CMD ["python", "main.py"]
+#Initialize database and run application
+CMD python seed_db.py && python main.py
