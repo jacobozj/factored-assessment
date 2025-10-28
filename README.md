@@ -40,9 +40,6 @@ This application provides a simple employee profile management system where user
 - **Vite**: Build tool and development server
 
 ## Running with Docker
-
-If you prefer to use Docker, it's much simpler:
-
 ### Prerequisites
 
 - Docker installed
