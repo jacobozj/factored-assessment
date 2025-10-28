@@ -131,8 +131,40 @@ cd frontend
 ```bash
 npm install
 ```
+## Running with Docker
 
-## Running the Application
+If you prefer to use Docker, it's much simpler:
+
+### Prerequisites
+
+- Docker installed
+- Docker Compose installed
+
+### Start Everything
+
+From the project root directory, run:
+
+```bash
+docker-compose up
+```
+
+This single command will:
+
+- Build both backend and frontend containers
+- Start both services
+- Create the network between them
+- The backend will be on `http://localhost:8000`
+- The frontend will be on `http://localhost:5173`
+
+### Stop Everything
+
+```bash
+docker-compose down
+```
+
+That's it! No need to install Python, Node.js, or any dependencies manually.
+
+## Running the Application (alternative)
 
 You need to run both backend and frontend servers simultaneously.
 
@@ -176,39 +208,6 @@ Local: http://localhost:5173/
 ### Access the Application
 
 Open your web browser and navigate to: `http://localhost:5173`
-
-## Running with Docker (Alternative)
-
-If you prefer to use Docker, it's much simpler:
-
-### Prerequisites
-
-- Docker installed
-- Docker Compose installed
-
-### Start Everything
-
-From the project root directory, run:
-
-```bash
-docker-compose up
-```
-
-This single command will:
-
-- Build both backend and frontend containers
-- Start both services
-- Create the network between them
-- The backend will be on `http://localhost:8000`
-- The frontend will be on `http://localhost:5173`
-
-### Stop Everything
-
-```bash
-docker-compose down
-```
-
-That's it! No need to install Python, Node.js, or any dependencies manually.
 
 ## How It Works
 
