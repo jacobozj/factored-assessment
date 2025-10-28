@@ -2,20 +2,6 @@
 
 A full-stack web application for managing and viewing employee profiles with skill visualization. Built with FastAPI (Python) backend and React (TypeScript) frontend.
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Running the Application](#running-the-application)
-- [How It Works](#how-it-works)
-- [API Documentation](#api-documentation)
-- [Database Structure](#database-structure)
-- [Testing the Connection](#testing-the-connection)
-- [Available User Accounts](#available-user-accounts)
-- [Docker Deployment](#docker-deployment)
 
 ## Overview
 
