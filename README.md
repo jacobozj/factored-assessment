@@ -39,6 +39,39 @@ This application provides a simple employee profile management system where user
 - **Axios**: HTTP client for API requests
 - **Vite**: Build tool and development server
 
+## Running with Docker
+
+If you prefer to use Docker, it's much simpler:
+
+### Prerequisites
+
+- Docker installed
+- Docker Compose installed
+
+### Start Everything
+
+From the project root directory, run:
+
+```bash
+docker-compose up
+```
+
+This single command will:
+
+- Build both backend and frontend containers
+- Start both services
+- Create the network between them
+- The backend will be on `http://localhost:8000`
+- The frontend will be on `http://localhost:5173`
+
+### Stop Everything
+
+```bash
+docker-compose down
+```
+
+That's it! No need to install Python, Node.js, or any dependencies manually.
+
 ## Project Structure
 
 ```
@@ -131,38 +164,6 @@ cd frontend
 ```bash
 npm install
 ```
-## Running with Docker
-
-If you prefer to use Docker, it's much simpler:
-
-### Prerequisites
-
-- Docker installed
-- Docker Compose installed
-
-### Start Everything
-
-From the project root directory, run:
-
-```bash
-docker-compose up
-```
-
-This single command will:
-
-- Build both backend and frontend containers
-- Start both services
-- Create the network between them
-- The backend will be on `http://localhost:8000`
-- The frontend will be on `http://localhost:5173`
-
-### Stop Everything
-
-```bash
-docker-compose down
-```
-
-That's it! No need to install Python, Node.js, or any dependencies manually.
 
 ## Running the Application (alternative)
 
