@@ -15,6 +15,7 @@ A full-stack web application for managing and viewing employee profiles with ski
 - [Database Structure](#database-structure)
 - [Testing the Connection](#testing-the-connection)
 - [Available User Accounts](#available-user-accounts)
+- [Docker Deployment](#docker-deployment)
 
 ## Overview
 
@@ -189,6 +190,39 @@ Local: http://localhost:5173/
 ### Access the Application
 
 Open your web browser and navigate to: `http://localhost:5173`
+
+## Running with Docker (Alternative)
+
+If you prefer to use Docker, it's much simpler:
+
+### Prerequisites
+
+- Docker installed
+- Docker Compose installed
+
+### Start Everything
+
+From the project root directory, run:
+
+```bash
+docker-compose up
+```
+
+This single command will:
+
+- Build both backend and frontend containers
+- Start both services
+- Create the network between them
+- The backend will be on `http://localhost:8000`
+- The frontend will be on `http://localhost:5173`
+
+### Stop Everything
+
+```bash
+docker-compose down
+```
+
+That's it! No need to install Python, Node.js, or any dependencies manually.
 
 ## How It Works
 
@@ -460,4 +494,227 @@ Expected output:
 [OK] Connection successful!
 [OK] Tables found: employees
 [OK] Found 3 employee(s)
+```
+
+## Available User Accounts
+
+All sample accounts use the same password: `password123`
+
+1. **Sara Perez** - Senior Data Scientist
+
+   - Email: `sara123@factored.com`
+   - Skills: Python, SQL, Machine Learning, Spark, TensorFlow, AWS, Statistics
+
+2. **Mariana Garcia** - Data Engineer
+
+   - Email: `mariana123@factored.com`
+   - Skills: Python, SQL, Spark, Airflow, Docker, Kubernetes, GCP
+
+3. **Juana Lopez** - Machine Learning Engineer
+   - Email: `juana123@factored.com`
+   - Skills: Python, PyTorch, TensorFlow, MLOps, Docker, FastAPI, Java
+
+---
+
+## Docker Deployment
+
+### Prerequisites for Docker
+
+- Docker Desktop installed (includes Docker Compose)
+- At least 2GB of free disk space
+
+### Quick Start with Docker
+
+The easiest way to run the entire application is using Docker Compose.
+
+#### Option 1: Using Start Scripts (Recommended)
+
+**Windows:**
+
+```bash
+docker-start.bat
+```
+
+**Linux/Mac:**
+
+```bash
+chmod +x docker-start.sh
+./docker-start.sh
+```
+
+These scripts will automatically check if Docker is installed and running, then build and start the application.
+
+#### Option 2: Using Makefile (Linux/Mac/Windows with Make)
+
+```bash
+make up      # Start services in background
+make logs    # View logs
+make down    # Stop services
+make help    # See all available commands
+```
+
+#### Option 3: Manual Docker Compose
+
+**1. Build and start all services:**
+
+```bash
+docker-compose up --build
+```
+
+This single command will:
+
+- Build the backend container
+- Build the frontend container
+- Create a network for inter-container communication
+- Initialize the database with seed data
+- Start both services
+
+**2. Access the application:**
+
+- **Frontend:** `http://localhost:3000`
+- **Backend API:** `http://localhost:8000`
+- **API Documentation:** `http://localhost:8000/docs`
+
+**3. Stop the application:**
+
+```bash
+docker-compose down
+```
+
+**4. Stop and remove volumes (delete database):**
+
+```bash
+docker-compose down -v
+```
+
+### Additional Docker Commands
+
+**Run in detached mode (background):**
+
+```bash
+docker-compose up -d
+```
+
+**View logs:**
+
+```bash
+# All services
+docker-compose logs -f
+
+# Specific service
+docker-compose logs -f backend
+docker-compose logs -f frontend
+```
+
+**Rebuild containers after code changes:**
+
+```bash
+docker-compose up --build --force-recreate
+```
+
+**Check running containers:**
+
+```bash
+docker-compose ps
+```
+
+**Access container shell:**
+
+```bash
+# Backend
+docker exec -it employee-backend sh
+
+# Frontend
+docker exec -it employee-frontend sh
+```
+
+### Docker Architecture
+
+The application uses a multi-container setup orchestrated by Docker Compose:
+
+#### Backend Container
+
+- **Base Image:** Python 3.13 slim
+- **Framework:** FastAPI + Uvicorn server
+- **Port:** 8000 (mapped to host 8000)
+- **Database:** SQLite with persistent volume
+- **Features:**
+  - Automatic database seeding on startup
+  - Health check endpoint
+  - CORS configured for frontend
+
+#### Frontend Container
+
+- **Build Strategy:** Multi-stage build
+  - Stage 1: Node.js 20 for building React app
+  - Stage 2: Nginx Alpine for serving static files
+- **Port:** 80 (mapped to host 3000)
+- **Features:**
+  - Production-optimized Vite build
+  - Nginx with compression and caching
+  - React Router support with fallback to index.html
+  - Security headers
+
+#### Network
+
+- **Type:** Bridge network (`app-network`)
+- **Purpose:** Enables inter-container communication
+- **Configuration:** Frontend can reach backend via service name
+
+#### Volumes
+
+- **backend-data:** Persists SQLite database between container restarts
+
+### Environment Variables
+
+You can customize the application by modifying environment variables in `docker-compose.yml`:
+
+**Backend variables:**
+
+```yaml
+environment:
+  - PYTHONUNBUFFERED=1 # Enable real-time logging
+```
+
+**Frontend variables:**
+
+```yaml
+environment:
+  - VITE_API_URL=http://localhost:8000 # Backend API URL
+```
+
+### Troubleshooting Docker
+
+**Port already in use:**
+
+```bash
+# Change ports in docker-compose.yml
+# For backend: "8001:8000" instead of "8000:8000"
+# For frontend: "3001:80" instead of "3000:80"
+```
+
+**Database not seeding:**
+
+```bash
+# Remove the volume and restart
+docker-compose down -v
+docker-compose up --build
+```
+
+**Cannot connect to backend:**
+
+```bash
+# Check if backend is healthy
+docker-compose ps
+docker-compose logs backend
+```
+
+**Frontend shows blank page:**
+
+```bash
+# Check nginx logs
+docker-compose logs frontend
+
+# Rebuild frontend
+docker-compose up --build frontend
 ```
